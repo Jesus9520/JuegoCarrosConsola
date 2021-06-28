@@ -76,25 +76,18 @@ public class Juegocarreras {
              if(ifDriverIsEmpty==true)
              {
             strInsertDriver= String.format("INSERT INTO driver(id_driver, name_driver, cont_driver) "
-                + "VALUES (%d, '%s' %d)", driver.getId(), driver.getName(), driver.getContDriver());
+                + "VALUES (%d,'%s',%d)", driver.getId(), driver.getName(), driver.getContDriver());
         
             }
              else
             {
                  strInsertDriver= String.format("INSERT INTO driver(name_driver, cont_driver) "
-                + "VALUES ('%s', %d)", driver.getName(), driver.getContDriver());
+                + "VALUES ('%s',%d)", driver.getName(), driver.getContDriver());
         
             }
             
-            ResultSet result = conexion.consultarRegistros(strInsertDriver);
-            if(result==null)
-            {
-                System.out.println("No se pudo crear el jugador");
-            }
-            else
-            {
-                 System.out.println("Jugador creado con exito");
-            }
+            conexion.ejecutarSetenciasSQL(strInsertDriver);
+            System.out.println("Jugador se creo con exito");
            
             
         } catch (Exception e) {

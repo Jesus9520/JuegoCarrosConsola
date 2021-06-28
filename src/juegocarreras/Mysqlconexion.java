@@ -50,7 +50,9 @@ public class Mysqlconexion {
         
     }
     
-    public ResultSet consultarRegistros(String strSentenciaSQL) 
+     
+    
+    public ResultSet ejecutarConsulta(String strSentenciaSQL) 
     {
         try {
             
