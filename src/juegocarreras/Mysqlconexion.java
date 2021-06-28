@@ -7,22 +7,45 @@ package juegocarreras;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-/**
- *
- * @author Usuario
- */
+
+
 public class Mysqlconexion {
-    public void connect() throws SQLException{
-        String serveraddress = "127.0.0.1:3306";
-        String db = "db_juegocarros";
-        String user = "root";
-        String pass = "12345";
-        String url = "jdbc:mysql://" + serveraddress + "/" + db; 
-        Connection conn = DriverManager.getConnection(url, user, pass);
+    
+    Connection conn;
+    
+    public void connect() {
         
+        try {
+            String rutaDb = "C:/Users/Kevin/Documents/sofka/JuegoCarrosConsola/src/bd/SQLite/";
+            String db = "db_juegocarros.s3db";
+            String url = "jdbc:sqlite:" + rutaDb + db; 
+            conn = DriverManager.getConnection(url);
+            
+            System.out.println("Conexión establecida");
+            
+            
+        } catch (Exception e) {
+            
+            System.out.println("Error de conexion" +e);
+        }
         
+    }
+    
+    public int ejecutarSetenciasSQL(String strSentenciaSQL) 
+    {
+        try {
+            
+            PreparedStatement pstm = conn.prepareStatement(strSentenciaSQL);
+            pstm.execute();
+            return 1;
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+            return 0;
+        }
         
     }
             
