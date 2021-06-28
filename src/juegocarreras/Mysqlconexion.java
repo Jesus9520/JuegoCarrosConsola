@@ -8,6 +8,7 @@ package juegocarreras;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -45,6 +46,22 @@ public class Mysqlconexion {
         } catch (SQLException e) {
             System.out.println(e);
             return 0;
+        }
+        
+    }
+    
+    public ResultSet consultarRegistros(String strSentenciaSQL) 
+    {
+        try {
+            
+            PreparedStatement pstm = conn.prepareStatement(strSentenciaSQL);
+            ResultSet respuesta = pstm.executeQuery();
+            return respuesta;
+            
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+            
         }
         
     }
