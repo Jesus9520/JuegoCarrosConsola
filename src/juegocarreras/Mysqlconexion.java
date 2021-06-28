@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class Mysqlconexion {
     public void connect() throws SQLException{
-        String serveraddress = "localhost:3306";
+        String serveraddress = "127.0.0.1:3306";
         String db = "db_juegocarros";
         String user = "root";
         String pass = "12345";
