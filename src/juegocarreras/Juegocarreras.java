@@ -1,6 +1,7 @@
 
  package juegocarreras;
 
+import BL.CarBL;
 import BL.DriverBL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +13,8 @@ public class Juegocarreras {
     
     Scanner reader = new Scanner(System.in);
     DriverBL driverBL = new DriverBL();
+    CarBL car = new CarBL();
+    
     Mysqlconexion conexion = new Mysqlconexion();
     int contDriver=0;
     
@@ -48,44 +51,28 @@ public class Juegocarreras {
 		String nameDriver;
 		nameDriver = reader.next();
 		
-                boolean ifDriverIsEmpty= checkDbifEmpty();
-                
-                if(ifDriverIsEmpty==true)
-                {
-                    driverBL.setId(1);
-                    
-                }
-                
-                
+                int idDriver=getIdDriver();
+                driverBL.setId(idDriver);
                 driverBL.setContDriver(contDriver);
                 driverBL.setName(nameDriver);
                 
-                insertDriver(driverBL, ifDriverIsEmpty);
+                insertDriver(driverBL);
+                carSelection();
                 
                 
                
 		
 	}
     
-    public void insertDriver(DriverBL driver, boolean ifDriverIsEmpty)
+    public void insertDriver(DriverBL driver)
     {
         
-       
         try {
             String strInsertDriver;
-             if(ifDriverIsEmpty==true)
-             {
+             
             strInsertDriver= String.format("INSERT INTO driver(id_driver, name_driver, cont_driver) "
                 + "VALUES (%d,'%s',%d)", driver.getId(), driver.getName(), driver.getContDriver());
         
-            }
-             else
-            {
-                 strInsertDriver= String.format("INSERT INTO driver(name_driver, cont_driver) "
-                + "VALUES ('%s',%d)", driver.getName(), driver.getContDriver());
-        
-            }
-            
             conexion.ejecutarSetenciasSQL(strInsertDriver);
             System.out.println("Jugador se creo con exito");
            
@@ -97,27 +84,78 @@ public class Juegocarreras {
         
     }
     
-    
-    public boolean checkDbifEmpty(){
+    public void carSelection() {
         
-        String strSentCheckTableDriver= "SELECT COUNT(DISTINCT id_driver) FROM driver;";
-        int countDriver=0;
+        int nCar=5;
+        int numberCar;
+		
+	System.out.println("SELECCIÓN DE CARRO\n");
+		
+	ArrayList<CarBL> listCars = new ArrayList<CarBL>();
+        List<String> listBrandsCar = new ArrayList<String>();
+        List<String> listColorsCar = new ArrayList<String>();
+        
+        listColorsCar.add("AMARILLO");
+        listColorsCar.add("AZUL");
+        listColorsCar.add("ROJO");
+        listColorsCar.add("VERDE");
+        listColorsCar.add("BLANCO");
+        
+        listBrandsCar.add("MAZDA");
+        listBrandsCar.add("TOYOTA");
+        listBrandsCar.add("MERCEDEZ");
+        listBrandsCar.add("AUDI");
+        listBrandsCar.add("BMW");
+        
+        for(int i=0; i<nCar; i++){
+            car.setId_car(i);
+            car.setBrand(listBrandsCar.get(i));
+            car.setColor(listColorsCar.get(i));
+            listCars.add(car);
+        }
+        
+        int idCar;
+        String brandCar;
+        String colorCar;
+                
+        for(int x=0; x<nCar; x++)
+        {
+            idCar=listCars.get(x).getId_car();
+            brandCar= listCars.get(1).getBrand();
+            colorCar= listCars.get(1).getColor();
+            System.out.println(idCar + " - " + brandCar+ " - " + colorCar);
+        }
+     	
+		
+	System.out.println("Escribe el número del carro con el que desas jugar\n");
+		
+	numberCar = reader.nextInt();
+		
+	System.out.println("Tu selección de carro se ha guardado.\n");
+	mostrarInterfazPrincipal();		
+	}
+    
+    
+    
+    public int getIdDriver(){
+        
+        DriverBL driver = new DriverBL();
+        String strSentCheckTableDriver= "SELECT MAX(id_driver) AS id_driver FROM driver";
+        int idDriver=0;
         try {
-            countDriver = conexion.ejecutarSetenciasSQL(strSentCheckTableDriver);
-            
+            ResultSet result = conexion.ConsultaRegistros(strSentCheckTableDriver);
+            if(result.next())
+            {
+                idDriver=(result.getInt(1));
+            }
+               
+            idDriver++;
             
         } catch (Exception e) {
             System.out.println(e);
         }
         
-        if(countDriver==1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+        return idDriver;
         
     }
     
