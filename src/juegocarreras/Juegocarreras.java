@@ -57,9 +57,8 @@ public class Juegocarreras {
                 driverBL.setName(nameDriver);
                 
                 insertDriver(driverBL);
-                carSelection();
                 
-                
+                mostrarInterfazPrincipal();
                
 		
 	}
@@ -165,27 +164,60 @@ public class Juegocarreras {
     }
     
     public void newPlay() {
+        
+        int i;
 		
 	System.out.println("JUEGO NUEVO\n");
 		
-        System.out.println("Escribe la cantidad de conductores que van a participar en la carrera\n");
+        System.out.println("Escribe la cantidad de conductores que van a participar en la carrera - MAXIMO 3 JUGADORES\n");
 		
 	int cantidadConductores = 0;
 	cantidadConductores = reader.nextInt();
 		
         System.out.println("SELECCIÓN DE CONDUCTORES\n");
         
-        List<String> listaDriversNames = new ArrayList<String>();
-		
-        for (int i=1;i<=cantidadConductores;i++) {
-        	
-            System.out.println("Escriba el nombre del conductor Número " + i + "\n");
-            String nameConductor;
-            nameConductor = reader.next();
-            listaDriversNames.add(nameConductor);
+        ArrayList<DriverBL> listDrivers = new ArrayList<>();
+        int idDriver;
+        String nameDriver;
+        
+        int nDrivers=getDrivers(listDrivers).size();
+        i=0;
+        
+        while (i<nDrivers) {
+            
+            idDriver=listDrivers.get(i).getId();
+            nameDriver= listDrivers.get(i).getName();
+            System.out.println(idDriver + " - " + nameDriver);
+            i++;
         }
         
-        System.out.println("SELECCIÓN DE CONDUCTORES EXITOSA\n");
+        int numberDriver;
+        
+        ArrayList<DriverBL> listCarsGamers = new ArrayList<>();
+        int cont=1;
+        
+        for(i=0; i<cantidadConductores; i++)
+        {
+            System.out.println("Seleccione el conductor n." + cont + ":\n");
+            numberDriver = reader.nextInt();
+            numberDriver--;
+            listCarsGamers.add(listDrivers.get(numberDriver));
+            cont++;
+        }
+        
+        
+        
+        System.out.println("\nSELECCIÓN DE CONDUCTORES EXITOSA\n");
+        
+        System.out.println("\nLOS CONDUCTORES SELECCIONADOS SON:\n");
+        
+        for(i=0; i<listCarsGamers.size();i++)
+        {
+            System.out.println("\n" + listCarsGamers.get(i).getId() + " - " + listCarsGamers.get(i).getName() + "\n");
+            
+        }
+        
+        carSelection();
         
         System.out.println("INGRESA LA DISTANCIA DE LAS PISTAS EN KILOMETROS\n");
         int distanciaPista = 0;
@@ -199,6 +231,28 @@ public class Juegocarreras {
         
         
 	}
+    public ArrayList<DriverBL> getDrivers(ArrayList<DriverBL> listDriver){
+        
+        
+        String strSentCheckTableDriver= "SELECT * FROM driver";
+        
+        try {
+            ResultSet result = conexion.ConsultaRegistros(strSentCheckTableDriver);
+            while(result.next())
+            {
+                DriverBL driver = new DriverBL();
+                driver.setId(result.getInt("id_driver"));
+                driver.setName(result.getString("name_driver"));
+                listDriver.add(driver);
+            }
+               
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return listDriver;
+    }
     
 	
 
