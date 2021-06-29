@@ -20,9 +20,10 @@ public class Mysqlconexion {
     public void connect() {
         
         try {
-            String rutaDb = "C:/Users/Usuario/Documents/NetBeansProjects/juegocarreras/src/bd/SQLite/";
+            String rutaDbJesus = "C:/Users/Usuario/Documents/NetBeansProjects/juegocarreras/src/bd/SQLite/";
+            String rutaDbje = "C:/Users/Kevin/Documents/sofka/JuegoCarrosConsola/src/bd/SQLite/";
             String db = "db_juegocarros.s3db";
-            String url = "jdbc:sqlite:" + rutaDb + db; 
+            String url = "jdbc:sqlite:" + rutaDbje + db; 
             conn = DriverManager.getConnection(url);
             
             System.out.println("Conexión establecida");

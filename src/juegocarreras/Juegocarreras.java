@@ -45,7 +45,7 @@ public class Juegocarreras {
 	}
     public void savePlayer() {
 		
-		System.out.println("HOLA JUGADOR\n");
+		System.out.println("\nHOLA JUGADOR\n");
 		System.out.println("Escribe tu nombre:\n");
 		
 		String nameDriver;
@@ -74,7 +74,7 @@ public class Juegocarreras {
                 + "VALUES (%d,'%s',%d)", driver.getId(), driver.getName(), driver.getContDriver());
         
             conexion.ejecutarSetenciasSQL(strInsertDriver);
-            System.out.println("Jugador se creo con exito");
+            System.out.println("\n Jugador creado con exito");
            
             
         } catch (Exception e) {
@@ -89,11 +89,11 @@ public class Juegocarreras {
         int nCar=5;
         int numberCar;
 		
-	System.out.println("SELECCIÓN DE CARRO\n");
+	System.out.println("\nSELECCIÓN DE CARRO\n");
 		
-	ArrayList<CarBL> listCars = new ArrayList<CarBL>();
-        List<String> listBrandsCar = new ArrayList<String>();
-        List<String> listColorsCar = new ArrayList<String>();
+	ArrayList<CarBL> listCars = new ArrayList<>();
+        ArrayList<String> listBrandsCar = new ArrayList<>();
+        ArrayList<String> listColorsCar = new ArrayList<>();
         
         listColorsCar.add("AMARILLO");
         listColorsCar.add("AZUL");
@@ -107,8 +107,11 @@ public class Juegocarreras {
         listBrandsCar.add("AUDI");
         listBrandsCar.add("BMW");
         
+        
+        //aqui creamos los carros con sus caracteristicas y añadimos cada uno a la lista de carros
         for(int i=0; i<nCar; i++){
-            car.setId_car(i);
+            CarBL car = new CarBL();
+            car.setId_car(i+1);
             car.setBrand(listBrandsCar.get(i));
             car.setColor(listColorsCar.get(i));
             listCars.add(car);
@@ -117,21 +120,23 @@ public class Juegocarreras {
         int idCar;
         String brandCar;
         String colorCar;
-                
+        
+        
+        //aqui recorremos la lista de carros para mostrarlos        
         for(int x=0; x<nCar; x++)
         {
             idCar=listCars.get(x).getId_car();
-            brandCar= listCars.get(1).getBrand();
-            colorCar= listCars.get(1).getColor();
+            brandCar= listCars.get(x).getBrand();
+            colorCar= listCars.get(x).getColor();
             System.out.println(idCar + " - " + brandCar+ " - " + colorCar);
         }
      	
 		
-	System.out.println("Escribe el número del carro con el que desas jugar\n");
+	System.out.println("\nEscribe el número del carro con el que deseas jugar\n");
 		
 	numberCar = reader.nextInt();
 		
-	System.out.println("Tu selección de carro se ha guardado.\n");
+	System.out.println("\nTu selección de carro se ha guardado.\n");
 	mostrarInterfazPrincipal();		
 	}
     
